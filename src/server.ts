@@ -5,10 +5,9 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 
-const browserDistFolder = join(dirname(fileURLToPath(import.meta.url)), '../browser');
+const browserDistFolder = join(process.cwd(), 'dist/excel-analytics/browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
