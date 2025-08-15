@@ -1,0 +1,126 @@
+<div class="auto-charts-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <div class="header-info">
+        <h2>
+          <mat-icon>auto_awesome</mat-icon>
+          Automatic Charts
+        </h2>
+        <p>AI-generated visualizations based on your data</p>
+      </div>
+      
+      <div class="header-actions" *ngIf="hasData">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="regenerateCharts()"
+          [disabled]="isGenerating"
+          matTooltip="Generate new automatic charts">
+          <mat-icon>refresh</mat-icon>
+          Regenerate
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress indicator -->
+    <div *ngIf="isGenerating" class="generation-progress">
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>Generating intelligent charts...</span>
+    </div>
+  </div>
+
+  <!-- Charts Grid -->
+  <div *ngIf="!isGenerating && charts.length > 0" class="charts-grid">
+    <mat-card 
+      *ngFor="let chart of charts; trackBy: trackByChartId" 
+      class="chart-card"
+      [class.animate-in]="!isGenerating">
+      
+      <mat-card-header class="chart-header">
+        <div mat-card-avatar class="chart-avatar">
+          <mat-icon>{{ getChartIcon(chart.type) }}</mat-icon>
+        </div>
+        
+        <mat-card-title class="chart-title">
+          {{ chart.title }}
+        </mat-card-title>
+        
+        <mat-card-subtitle class="chart-subtitle">
+          {{ getChartTypeLabel(chart.type) }}
+        </mat-card-subtitle>
+        
+        <div class="chart-actions">
+          <button 
+            mat-icon-button 
+            (click)="addToDashboard(chart)"
+            matTooltip="Add to Dashboard"
+            color="primary"
+            class="add-button">
+            <mat-icon>add_to_photos</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content class="chart-content">
+        <div class="chart-wrapper">
+          <app-chart 
+            [id]="chart.id"
+            [type]="chart.type" 
+            [data]="chart.data" 
+            [options]="chart.options">
+          </app-chart>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!hasData && !isGenerating" class="empty-state">
+    <div class="empty-content">
+      <mat-icon class="empty-icon">auto_awesome</mat-icon>
+      <h3>No Data Available</h3>
+      <p>Upload a data file to automatically generate intelligent charts and visualizations</p>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isGenerating" class="loading-state">
+    <div class="loading-content">
+      <mat-spinner diameter="60"></mat-spinner>
+      <h3>Analyzing Your Data</h3>
+      <p>Our AI is creating intelligent visualizations...</p>
+      <div class="loading-steps">
+        <div class="step active">
+          <mat-icon>search</mat-icon>
+          <span>Analyzing data structure</span>
+        </div>
+        <div class="step active">
+          <mat-icon>psychology</mat-icon>
+          <span>Identifying patterns</span>
+        </div>
+        <div class="step active">
+          <mat-icon>insights</mat-icon>
+          <span>Generating charts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Charts Generated -->
+  <div *ngIf="!isGenerating && hasData && charts.length === 0" class="no-charts-state">
+    <div class="no-charts-content">
+      <mat-icon class="warning-icon">warning</mat-icon>
+      <h3>No Charts Generated</h3>
+      <p>Unable to generate automatic charts from the current data.</p>
+      <p>Try uploading data with more varied columns or different data types.</p>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="regenerateCharts()">
+        <mat-icon>refresh</mat-icon>
+        Try Again
+      </button>
+    </div>
+  </div>
+</div>

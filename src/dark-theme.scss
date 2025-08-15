@@ -1,0 +1,45 @@
+body.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+
+  .mat-card {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  .mat-table {
+    background-color: #1e1e1e;
+  }
+
+  .mat-header-cell {
+    color: #ffffff;
+  }
+
+  .mat-cell {
+    color: #ffffff;
+  }
+
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #333333;
+  }
+
+  .mat-select-value {
+    color: #ffffff;
+  }
+
+  .mat-button-toggle-group {
+    background-color: #333333;
+  }
+
+  .mat-button-toggle-checked {
+    background-color: #555555;
+  }
+
+  .mat-icon {
+    color: #ffffff;
+  }
+
+  .mat-raised-button.mat-primary {
+    background-color: #3f51b5;
+  }
+}

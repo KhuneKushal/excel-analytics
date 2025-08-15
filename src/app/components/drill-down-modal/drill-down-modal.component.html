@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Drill-Down Details for "{{ data.clickedLabel }}" ({{ data.clickedValue }})</h2>
+<mat-dialog-content>
+  <div *ngIf="dataSource.length === 0" class="no-data-message">
+    <p>No detailed data available for this selection.</p>
+  </div>
+
+  <div *ngIf="dataSource.length > 0">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef>{{ column }}</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element[column] }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Close</button>
+</mat-dialog-actions>

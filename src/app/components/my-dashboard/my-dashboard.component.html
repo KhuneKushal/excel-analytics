@@ -1,0 +1,57 @@
+<div class="dashboard-container">
+  <div class="dashboard-content" #dashboardGrid>
+    
+    <!-- Charts container -->
+    <div *ngIf="charts.length > 0" class="charts-container">
+      <div *ngFor="let chart of charts; trackBy: trackByChartId" class="chart-item">
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title">{{ chart.title || 'Untitled Chart' }}</div>
+            <div class="chart-actions">
+              <button
+                mat-icon-button
+                (click)="exportChartToPng(chart.id, chart.title)"
+                matTooltip="Export as PNG"
+                [disabled]="!chart.id">
+                <mat-icon>image</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="exportChartToPdf(chart.id, chart.title)"
+                matTooltip="Export as PDF"
+                [disabled]="!chart.id">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="deleteChart(chart.id)"
+                matTooltip="Delete Chart"
+                color="warn"
+                [disabled]="!chart.id">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="chart-content">
+            <div class="chart-wrapper">
+              <app-chart 
+                [id]="chart.id" 
+                [type]="chart.type" 
+                [data]="chart.data" 
+                [options]="chart.options"
+                (segmentClick)="onSegmentClick($event, chart)">
+              </app-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!charts || charts.length === 0" class="empty-dashboard">
+      <mat-icon>dashboard</mat-icon>
+      <h2>No Charts Available</h2>
+      <p>Add charts using the Dashboard Builder or Auto Analysis to get started.</p>
+    </div>
+  </div>
+</div>

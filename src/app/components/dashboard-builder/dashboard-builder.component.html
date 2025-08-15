@@ -1,0 +1,200 @@
+<div class="builder-container">
+  <mat-card class="builder-card">
+    <mat-card-header>
+      <div mat-card-avatar class="builder-avatar">
+        <mat-icon>dashboard</mat-icon>
+      </div>
+      <mat-card-title>Chart Builder</mat-card-title>
+      <mat-card-subtitle>
+        Create custom charts for your dashboard
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Configuration Section -->
+      <div class="config-section">
+        <h3 class="section-title">
+          <mat-icon>settings</mat-icon>
+          Chart Configuration
+        </h3>
+        
+        <div class="config-grid">
+          <!-- Chart Title -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Chart Title</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="chartConfig.title" 
+              (ngModelChange)="onConfigChange()"
+              placeholder="Enter chart title">
+            <mat-icon matSuffix>title</mat-icon>
+          </mat-form-field>
+
+          <!-- Chart Type -->
+          <mat-form-field appearance="outline">
+            <mat-label>Chart Type</mat-label>
+            <mat-select 
+              [(ngModel)]="chartConfig.type" 
+              (ngModelChange)="onConfigChange()">
+              <mat-option 
+                *ngFor="let type of chartTypes; trackBy: trackByValue" 
+                [value]="type.value">
+                <div class="option-content">
+                  <mat-icon>{{ type.icon }}</mat-icon>
+                  <span>{{ type.label }}</span>
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- X-Axis Column -->
+          <mat-form-field appearance="outline">
+            <mat-label>
+              {{ isScatterChart ? 'X Values' : 'Categories (X-Axis)' }}
+            </mat-label>
+            <mat-select 
+              [(ngModel)]="selectedXColumn" 
+              (ngModelChange)="onConfigChange()"
+              required>
+              <mat-option 
+                *ngFor="let col of (isScatterChart ? numericColumns : categoricalColumns)" 
+                [value]="col">
+                {{ col }}
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>view_column</mat-icon>
+          </mat-form-field>
+
+          <!-- Y-Axis Column -->
+          <mat-form-field 
+            appearance="outline" 
+            *ngIf="requiresYAxis">
+            <mat-label>
+              {{ isScatterChart ? 'Y Values' : 'Values (Y-Axis)' }}
+            </mat-label>
+            <mat-select 
+              [(ngModel)]="selectedYColumn" 
+              (ngModelChange)="onConfigChange()"
+              [required]="requiresYAxis">
+              <mat-option 
+                *ngFor="let col of numericColumns" 
+                [value]="col">
+                {{ col }}
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>bar_chart</mat-icon>
+          </mat-form-field>
+
+          <!-- Aggregation -->
+          <mat-form-field 
+            appearance="outline" 
+            *ngIf="requiresYAxis && !isScatterChart">
+            <mat-label>Aggregation</mat-label>
+            <mat-select 
+              [(ngModel)]="selectedAggregation" 
+              (ngModelChange)="onConfigChange()">
+              <mat-option 
+                *ngFor="let agg of aggregationTypes; trackBy: trackByValue" 
+                [value]="agg.value"
+                [matTooltip]="agg.description">
+                {{ agg.label }}
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>functions</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="previewChart()"
+            [disabled]="!canPreview"
+            class="preview-btn">
+            <mat-icon>visibility</mat-icon>
+            {{ isPreviewLoading ? 'Generating...' : 'Preview Chart' }}
+          </button>
+
+          <button 
+            mat-raised-button 
+            color="accent" 
+            (click)="addToDashboard()"
+            [disabled]="!canAddToDashboard"
+            class="add-btn">
+            <mat-icon>add_to_photos</mat-icon>
+            Add to Dashboard
+          </button>
+
+          <button 
+            mat-stroked-button 
+            (click)="resetForm()"
+            class="reset-btn">
+            <mat-icon>refresh</mat-icon>
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Section -->
+      <div class="preview-section">
+        <div class="preview-header">
+          <h3 class="section-title">
+            <mat-icon>preview</mat-icon>
+            Chart Preview
+          </h3>
+          
+          <div class="preview-status" *ngIf="isPreviewLoading || hasValidPreview">
+            <mat-icon 
+              *ngIf="isPreviewLoading" 
+              class="spinning">
+              sync
+            </mat-icon>
+            <mat-icon 
+              *ngIf="hasValidPreview && !isPreviewLoading" 
+              class="success-icon">
+              check_circle
+            </mat-icon>
+            <span>
+              {{ isPreviewLoading ? 'Generating preview...' : 'Preview ready' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="chart-preview-container">
+          <div 
+            *ngIf="isPreviewLoading" 
+            class="loading-overlay">
+            <mat-icon class="loading-spinner">sync</mat-icon>
+            <p>Generating chart preview...</p>
+          </div>
+
+          <div 
+            *ngIf="!hasValidPreview && !isPreviewLoading" 
+            class="empty-preview">
+            <mat-icon>insert_chart_outlined</mat-icon>
+            <h4>No Preview Available</h4>
+            <p>Configure your chart settings and click "Preview Chart" to see your visualization</p>
+          </div>
+
+          <div 
+            *ngIf="hasValidPreview && !isPreviewLoading" 
+            class="chart-wrapper">
+            <app-chart 
+              [type]="chartConfig.type || 'bar'" 
+              [data]="chartConfig.data || { labels: [], datasets: [] }" 
+              (segmentClick)="onChartSegmentClick($event)">
+            </app-chart>
+          </div>
+        </div>
+      </div>
+
+      <!-- Help Section -->
+      <div class="help-section" *ngIf="columns.length === 0">
+        <mat-icon class="help-icon">help_outline</mat-icon>
+        <h4>No Data Available</h4>
+        <p>Please upload a data file first to start building charts.</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

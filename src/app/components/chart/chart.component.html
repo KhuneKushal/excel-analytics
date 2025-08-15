@@ -1,0 +1,21 @@
+<div class="chart-container" [attr.data-chart-id]="id">
+  <div *ngIf="isValidData; else noDataTemplate" class="chart-wrapper">
+    <canvas 
+      baseChart
+      [id]="id"
+      [type]="type"
+      [data]="data"
+      [options]="finalOptions"
+      (chartClick)="chartClicked($event)"
+      class="chart-canvas">
+    </canvas>
+  </div>
+  
+  <ng-template #noDataTemplate>
+    <div class="no-data-placeholder">
+      <div class="no-data-icon">📊</div>
+      <h4>No Data Available</h4>
+      <p>This chart has no data to display</p>
+    </div>
+  </ng-template>
+</div>
