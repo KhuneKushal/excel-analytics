@@ -73,7 +73,8 @@
               "core-js/modules/es.array.reverse.js",
               "core-js/modules/es.regexp.to-string.js",
               "raf",
-              "rgbcolor"
+              "rgbcolor",
+              "express"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
