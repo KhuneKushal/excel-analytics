@@ -6,8 +6,18 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { readdirSync } from 'node:fs';
 
-const browserDistFolder = join(process.cwd(), 'dist/excel-analytics/browser');
+const cwd = process.cwd();
+console.log(`CWD: ${cwd}`);
+try {
+  console.log(`CWD contents: ${readdirSync(cwd).join(', ')}`);
+} catch (e) {
+  console.log(`Error reading CWD: ${e}`);
+}
+
+const browserDistFolder = join(cwd, 'dist/excel-analytics/browser');
+console.log(`Browser dist folder: ${browserDistFolder}`);
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
