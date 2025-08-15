@@ -1,10 +1,10 @@
 {
   "version": 2,
   "builds": [
-    { "src": "dist/excel-analytics/server/main.js", "use": "@vercel/node" },
+    { "src": "dist/excel-analytics/server/server.mjs", "use": "@vercel/node" },
     { "src": "dist/excel-analytics/browser/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "dist/excel-analytics/server/main.js" }
+    { "src": "/(.*)", "dest": "dist/excel-analytics/server/server.mjs" }
   ]
 }

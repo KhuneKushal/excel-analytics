@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node dist/excel-analytics/server/main.js",
+    "start": "node dist/excel-analytics/server/server.mjs",
     "build": "npx ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:ssr": "ng build",
-    "serve:ssr": "node dist/excel-analytics/server/main.js",
+    "serve:ssr": "node dist/excel-analytics/server/server.mjs",
     "dev:ssr": "ng run excel-analytics:serve-ssr"
   },
   "prettier": {
