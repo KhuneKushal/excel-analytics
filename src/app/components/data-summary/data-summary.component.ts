@@ -33,9 +33,11 @@ export class DataSummaryComponent implements OnInit {
         const profiledData = this.dataProfilerService.profileData(data);
         this.summaryData = this.generateSummaryData(profiledData, data);
         this.aiInsights = this.generateAiInsights(this.summaryData);
+        this.dashboardService.setSummaryData(this.summaryData);
       } else {
         this.summaryData = this.getPlaceholderData();
         this.aiInsights = this.generateAiInsights(this.summaryData);
+        this.dashboardService.setSummaryData(this.summaryData);
       }
     });
   }

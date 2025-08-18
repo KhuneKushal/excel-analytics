@@ -5,7 +5,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { ThemeService } from '../../services/theme.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ResetDialogComponent } from '../reset-dialog/reset-dialog.component';
 import { DashboardService } from '../../services/dashboard.service';
@@ -29,17 +28,7 @@ import { DashboardActionsService } from '../../services/dashboard-actions.servic
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
-  themeService = inject(ThemeService);
-
   constructor(private dialog: MatDialog, private dashboardService: DashboardService, private dashboardActionsService: DashboardActionsService) { }
-
-  toggleTheme() {
-    this.themeService.toggleTheme();
-  }
-
-  get isDarkTheme() {
-    return this.themeService.isDarkTheme();
-  }
 
   openResetDialog(): void {
     const dialogRef = this.dialog.open(ResetDialogComponent);

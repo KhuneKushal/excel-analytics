@@ -1,7 +1,6 @@
 import { RouterModule } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
 import { NavComponent } from './components/nav/nav.component';
-import { ThemeService } from './services/theme.service';
 import { DashboardService } from './services/dashboard.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { DashboardService } from './services/dashboard.service';
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
-  themeService = inject(ThemeService);
   private dashboardService = inject(DashboardService);
 
   ngOnInit(): void {

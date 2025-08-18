@@ -270,5 +270,5 @@ export class ExportService {
       console.error('Error exporting dashboard as PDF:', error);
       this.snackBar.open('Failed to export dashboard as PDF.', 'Close', { duration: 3000 });
     }
-}
+  }
 }

@@ -24,17 +24,17 @@
       </button>
       <span>Excel Analytics Platform</span>
       <span class="toolbar-spacer"></span>
-      <button mat-icon-button (click)="toggleTheme()">
-        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      <button mat-button (click)="openResetDialog()" class="responsive-button">
+        <mat-icon>refresh</mat-icon>
+        <span class="button-text">Reset Dashboard</span>
       </button>
-      <button mat-button (click)="openResetDialog()">
-        Reset Dashboard
+      <button mat-raised-button color="primary" (click)="triggerDownloadPdf()" class="responsive-button">
+        <mat-icon>download</mat-icon>
+        <span class="button-text">Download Dashboard as PDF</span>
       </button>
-      <button mat-raised-button color="primary" (click)="triggerDownloadPdf()">
-        Download Dashboard as PDF
-      </button>
-      <button mat-raised-button color="accent" (click)="triggerImportConfig()">
-        Import Dashboard Config
+      <button mat-raised-button color="accent" (click)="triggerImportConfig()" class="responsive-button">
+        <mat-icon>upload</mat-icon>
+        <span class="button-text">Import Dashboard Config</span>
       </button>
     </mat-toolbar>
     <div class="content">
