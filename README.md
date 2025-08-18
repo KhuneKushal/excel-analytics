@@ -4,9 +4,10 @@ A powerful, web-based tool designed to bring your Excel and CSV data to life. Up
 
 ## Live Demo
 
-[Link to your live demo here]
+https://excel-analytics-mauve.vercel.app/
 
-*(Add a screenshot or GIF of the application in action here)*
+<img width="1903" height="975" alt="Screenshot 2025-08-15 071406" src="https://github.com/user-attachments/assets/6ba06e22-0f09-434a-a949-0c20f9f75371" />
+
 
 ## Key Features
 
