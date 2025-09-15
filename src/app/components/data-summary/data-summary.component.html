@@ -1,0 +1,154 @@
+<div class="summary-dashboard">
+
+  <div class="dashboard-row">
+    <!-- Data Summary Section -->
+    <div class="dashboard-card">
+      <mat-card class="summary-card data-summary-card">
+        <mat-card-header>
+          <mat-card-title>Data Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric">
+            <mat-icon>storage</mat-icon>
+            <span>Data Records</span>
+            <span class="metric-value">{{ summaryData.dataSummary.dataRecords | number }}</span>
+          </div>
+          <div class="metric">
+            <mat-icon>pin</mat-icon>
+            <span>Numeric Columns</span>
+            <span class="metric-value">{{ summaryData.dataSummary.numericColumns | number }}</span>
+          </div>
+          <div class="metric">
+            <mat-icon>category</mat-icon>
+            <span>Categories</span>
+            <span class="metric-value">{{ summaryData.dataSummary.categories | number }}</span>
+          </div>
+          <div class="metric">
+            <mat-icon>grain</mat-icon>
+            <span>Data Points</span>
+            <span class="metric-value">{{ summaryData.dataSummary.dataPoints | number }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- System Performance Section -->
+    <div class="dashboard-card">
+      <mat-card class="summary-card system-performance-card">
+        <mat-card-header>
+          <mat-card-title>System Performance</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric">
+            <mat-icon>bar_chart</mat-icon>
+            <span>Charts Generated</span>
+            <span class="metric-value">{{ summaryData.systemPerformance.chartsGenerated }}</span>
+          </div>
+          <div class="metric">
+            <mat-icon>speed</mat-icon>
+            <span>Processing Speed</span>
+            <span class="metric-value">{{ summaryData.systemPerformance.processingSpeed | number }} rec/s</span>
+          </div>
+          <div class="metric">
+            <mat-icon>memory</mat-icon>
+            <span>Memory Usage</span>
+            <span class="metric-value">{{ summaryData.systemPerformance.memoryUsage }} MB</span>
+          </div>
+          <div class="metric">
+            <mat-icon>cached</mat-icon>
+            <span>Cache Hit Rate</span>
+            <span class="metric-value">{{ summaryData.systemPerformance.cacheHitRate }}%</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="dashboard-row">
+    <!-- Trend Analysis Section -->
+    <div class="dashboard-card">
+      <mat-card class="summary-card trend-analysis-card">
+        <mat-card-header>
+          <mat-card-title>Trend Analysis</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="trend-info">
+            <mat-icon [ngClass]="getTrendIcon(summaryData.trendAnalysis.trendType)">{{ getTrendIcon(summaryData.trendAnalysis.trendType) }}</mat-icon>
+            <span class="trend-type">{{ summaryData.trendAnalysis.trendType }}</span>
+          </div>
+          <div class="trend-details">
+            <span>Strength: <strong>{{ summaryData.trendAnalysis.strength }}</strong></span>
+            <span [ngClass]="getConfidenceColor(summaryData.trendAnalysis.confidence)">Confidence: <strong>{{ summaryData.trendAnalysis.confidence }}%</strong></span>
+            <span>Freshness: <strong>{{ timeAgo(summaryData.trendAnalysis.dataFreshness) }}</strong></span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Data Quality Indicators Section -->
+    <div class="dashboard-card">
+      <mat-card class="summary-card data-quality-card">
+        <mat-card-header>
+          <mat-card-title>Data Quality Indicators</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="quality-bar">
+            <span>Completeness</span>
+            <mat-progress-bar mode="determinate" [value]="summaryData.dataQualityIndicators.completeness"></mat-progress-bar>
+            <span>{{ summaryData.dataQualityIndicators.completeness }}%</span>
+          </div>
+          <div class="quality-bar">
+            <span>Data Quality</span>
+            <mat-progress-bar mode="determinate" [value]="summaryData.dataQualityIndicators.dataQuality" color="accent"></mat-progress-bar>
+            <span>{{ summaryData.dataQualityIndicators.dataQuality }}%</span>
+          </div>
+          <div class="quality-bar">
+            <span>Performance Score</span>
+            <mat-progress-bar mode="determinate" [value]="summaryData.dataQualityIndicators.performanceScore" color="warn"></mat-progress-bar>
+            <span>{{ summaryData.dataQualityIndicators.performanceScore }}%</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- KPIs Section -->
+  <div class="dashboard-row kpi-row">
+    <div class="kpi-card">
+        <div class="kpi-title">Total Records</div>
+        <div class="kpi-value">{{ summaryData.kpis.totalRecords | number }}</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-title">Data Quality</div>
+        <div class="kpi-value">{{ summaryData.kpis.dataQuality }}%</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-title">Processing Time</div>
+        <div class="kpi-value">{{ summaryData.kpis.processingTime }} ms</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-title">Growth Rate</div>
+        <div class="kpi-value">{{ summaryData.kpis.growthRate }}%</div>
+    </div>
+  </div>
+
+  <!-- AI-Powered Insights Section -->
+  <div class="dashboard-row">
+    <div class="dashboard-card full-width-card">
+      <mat-card class="summary-card ai-insights-card">
+        <mat-card-header>
+          <mat-card-title>AI-Powered Insights</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li *ngFor="let insight of aiInsights">
+              <mat-icon>check_circle_outline</mat-icon>
+              <span>{{ insight }}</span>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+

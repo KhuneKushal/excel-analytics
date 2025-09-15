@@ -1,0 +1,48 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+mat-toolbar button {
+  margin-right: 8px; // Add some space between buttons
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content {
+  margin: 20px;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .responsive-button .button-text {
+    display: none;
+  }
+  .responsive-button mat-icon {
+    margin-right: 0;
+  }
+  .responsive-button {
+    min-width: 0;
+    padding: 0 8px;
+  }
+}
+
+.responsive-button .button-text {
+  display: inline;
+}
+
+.responsive-button mat-icon {
+  margin-right: 8px;
+}

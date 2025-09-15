@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build:ssr",
+  "outputDirectory": "dist/excel-analytics",
+  "builds": [
+    {
+      "src": "dist/excel-analytics/server/server.mjs",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/excel-analytics/browser/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/excel-analytics/server/server.mjs"
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.chart-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.no-data-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  color: #666;
+  text-align: center;
+  padding: 32px 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+  .no-data-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  h4 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 400;
+  }
+}
+
+// Loading state
+.chart-container.loading {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &::after {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+    color: #666;
+    font-size: 14px;
+  }
+}
+
+// Error state
+.chart-container.error {
+  .no-data-placeholder {
+    background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+    
+    .no-data-icon {
+      &::before {
+        content: '⚠️';
+      }
+    }
+    
+    h4 {
+      color: #e53e3e;
+    }
+    
+    p {
+      color: #c53030;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .chart-wrapper {
+    padding: 12px;
+  }
+  
+  .no-data-placeholder {
+    padding: 24px 12px;
+    
+    .no-data-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    
+    h4 {
+      font-size: 16px;
+    }
+    
+    p {
+      font-size: 13px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-container {
+    min-height: 180px;
+  }
+  
+  .chart-wrapper {
+    padding: 8px;
+  }
+  
+  .no-data-placeholder {
+    padding: 16px 8px;
+    min-height: 160px;
+    
+    .no-data-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    
+    h4 {
+      font-size: 15px;
+    }
+    
+    p {
+      font-size: 12px;
+    }
+  }
+}

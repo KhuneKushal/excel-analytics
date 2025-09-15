@@ -1,0 +1,14 @@
+mat-dialog-content {
+  max-height: 70vh; /* Limit height for scrollability */
+  overflow-y: auto;
+}
+
+mat-table {
+  width: 100%;
+}
+
+.no-data-message {
+  padding: 20px;
+  text-align: center;
+  color: #777;
+}

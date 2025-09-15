@@ -1,0 +1,16 @@
+<div class="filter-bar-container">
+  <mat-chip-listbox aria-label="Applied filters">
+    <mat-chip *ngFor="let filter of (filters$ | async)" (removed)="removeFilter(filter)">
+      {{ filter.column }}: {{ filter.value }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-listbox>
+
+  <ng-container *ngIf="filters$ | async as filters">
+    <button mat-button (click)="clearAllFilters()" *ngIf="filters.length > 0">
+      Clear All
+    </button>
+  </ng-container>
+</div>

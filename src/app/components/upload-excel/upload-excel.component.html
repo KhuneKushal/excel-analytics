@@ -1,0 +1,153 @@
+<div class="upload-container">
+  <mat-card class="upload-card">
+    <mat-card-header>
+      <div mat-card-avatar class="upload-avatar">
+        <mat-icon>cloud_upload</mat-icon>
+      </div>
+      <mat-card-title>Upload Data File</mat-card-title>
+      <mat-card-subtitle>
+        Upload Excel, CSV, TSV, or JSON files to create your dashboard
+      </mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <!-- File Upload Section -->
+      <div class="upload-section">
+        <input 
+          type="file" 
+          (change)="onFileChange($event)" 
+          [accept]="acceptedFileTypes" 
+          #fileInput 
+          style="display: none;"
+          [disabled]="isLoading">
+          
+        <div class="upload-zone" 
+             [class.loading]="isLoading"
+             [class.has-data]="hasData"
+             (click)="!isLoading && fileInput.click()">
+          
+          <div *ngIf="!isLoading && !hasData" class="upload-prompt">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <h3>Drop files here or click to browse</h3>
+            <p>Supports: Excel (.xlsx), CSV, TSV, JSON</p>
+            <p class="file-size-limit">Maximum file size: 50MB</p>
+            
+            <div class="supported-formats">
+              <mat-chip-listbox>
+                <mat-chip>XLSX</mat-chip>
+                <mat-chip>CSV</mat-chip>
+                <mat-chip>TSV</mat-chip>
+                <mat-chip>JSON</mat-chip>
+              </mat-chip-listbox>
+            </div>
+          </div>
+
+          <div *ngIf="isLoading" class="upload-progress">
+            <mat-icon class="spinning">sync</mat-icon>
+            <h3 *ngIf="isParsing">Parsing file...</h3>
+            <h3 *ngIf="isProcessing">Processing data...</h3>
+            <mat-progress-bar 
+              mode="determinate" 
+              [value]="uploadProgress"
+              class="progress-bar">
+            </mat-progress-bar>
+            <p *ngIf="rowCount > 0">Rows processed: {{ rowCount | number }}</p>
+          </div>
+
+          <div *ngIf="hasData && !isLoading" class="upload-success">
+            <mat-icon class="success-icon">check_circle</mat-icon>
+            <h3>File uploaded successfully!</h3>
+            <p>{{ uploadedFileName }}</p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="upload-actions" *ngIf="!isLoading">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="fileInput.click()"
+            [disabled]="isLoading">
+            <mat-icon>folder_open</mat-icon>
+            Choose File
+          </button>
+          
+          <button 
+            mat-stroked-button 
+            color="warn" 
+            *ngIf="hasData"
+            (click)="clearData()"
+            matTooltip="Clear uploaded data">
+            <mat-icon>clear</mat-icon>
+            Clear Data
+          </button>
+        </div>
+      </div>
+
+      <!-- File Metadata -->
+      <div *ngIf="fileMetadata && hasData" class="file-info">
+        <h4>File Information</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <mat-icon>insert_drive_file</mat-icon>
+            <span class="label">File Name:</span>
+            <span class="value">{{ fileMetadata.fileName }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>storage</mat-icon>
+            <span class="label">File Size:</span>
+            <span class="value">{{ formattedFileSize }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>schedule</mat-icon>
+            <span class="label">Uploaded:</span>
+            <span class="value">{{ fileMetadata.uploadTimestamp | date:'medium' }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>table_rows</mat-icon>
+            <span class="label">Rows:</span>
+            <span class="value">{{ fileMetadata.rowCount | number }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>view_column</mat-icon>
+            <span class="label">Columns:</span>
+            <span class="value">{{ fileMetadata.columnCount | number }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>extension</mat-icon>
+            <span class="label">Type:</span>
+            <span class="value">{{ fileMetadata.fileExtension | uppercase }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Preview -->
+      <div *ngIf="hasData" class="preview-section">
+        <div class="preview-header">
+          <h4>Data Preview</h4>
+          <span class="preview-subtitle">
+            Showing first {{ previewData.length }} of {{ rowCount | number }} rows
+          </span>
+        </div>
+        
+        <div class="data-preview-container">
+          <mat-table [dataSource]="previewData" class="preview-table mat-elevation-z2">
+            <ng-container *ngFor="let column of displayedColumns; trackBy: trackByColumn" [matColumnDef]="column">
+              <mat-header-cell *matHeaderCellDef class="header-cell">
+                <span [matTooltip]="column" class="column-header">{{ column }}</span>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="data-cell">
+                <span [matTooltip]="element[column]" class="cell-content">
+                  {{ element[column] }}
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="data-row"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

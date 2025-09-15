@@ -1,0 +1,8 @@
+# Angular
+/dist/
+/tmp/
+/out-tsc/
+/.angular/
+
+# Node
+/node_modules/

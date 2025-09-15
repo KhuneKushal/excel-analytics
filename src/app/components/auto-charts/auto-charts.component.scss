@@ -1,0 +1,480 @@
+.auto-charts-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-section {
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 32px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.header-info {
+  flex: 1;
+  
+  h2 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: #ffd700;
+    }
+  }
+  
+  p {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+}
+
+.header-actions {
+  button {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.generation-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  
+  mat-spinner {
+    ::ng-deep circle {
+      stroke: white;
+    }
+  }
+  
+  span {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.chart-card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e6ff;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border-color: #667eea;
+    
+    .chart-actions {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  &.animate-in {
+    animation: slideInUp 0.5s ease-out;
+  }
+}
+
+.chart-header {
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+  border-bottom: 1px solid #e0e6ff;
+  padding: 20px;
+  
+  .chart-avatar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .chart-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+  }
+  
+  .chart-subtitle {
+    font-size: 13px;
+    color: #667eea;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 4px 0 0 0;
+  }
+  
+  .chart-actions {
+    margin-left: auto;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    
+    .add-button {
+      background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+      }
+      
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+.chart-content {
+  padding: 20px;
+}
+
+.chart-wrapper {
+  height: 300px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  
+  app-chart {
+    height: 100%;
+    display: block;
+  }
+}
+
+// Empty States
+.empty-state,
+.loading-state,
+.no-charts-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 40px 20px;
+}
+
+.empty-content,
+.loading-content,
+.no-charts-content {
+  text-align: center;
+  max-width: 500px;
+  
+  .empty-icon,
+  .warning-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    color: #cbd5e0;
+    margin-bottom: 24px;
+  }
+  
+  .warning-icon {
+    color: #ffa726;
+  }
+  
+  h3 {
+    margin: 0 0 16px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #4a5568;
+  }
+  
+  p {
+    margin: 8px 0;
+    color: #718096;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-weight: 500;
+    border-radius: 8px;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.loading-content {
+  mat-spinner {
+    margin-bottom: 24px;
+    
+    ::ng-deep circle {
+      stroke: #667eea;
+    }
+  }
+  
+  .loading-steps {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.3;
+      transition: opacity 0.3s ease;
+      
+      &.active {
+        opacity: 1;
+        animation: pulse 2s infinite;
+      }
+      
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        color: #667eea;
+        background: #e8f2ff;
+        padding: 12px;
+        border-radius: 50%;
+        margin-bottom: 4px;
+      }
+      
+      span {
+        font-size: 12px;
+        color: #718096;
+        font-weight: 500;
+        text-align: center;
+        max-width: 80px;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .charts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .auto-charts-container {
+    padding: 16px;
+  }
+  
+  .header-section {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .header-info h2 {
+    font-size: 24px;
+    
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .chart-card {
+    .chart-actions {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .chart-wrapper {
+    height: 250px;
+  }
+  
+  .loading-content .loading-steps {
+    flex-direction: column;
+    gap: 16px;
+    
+    .step span {
+      max-width: none;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .header-section {
+    padding: 20px;
+  }
+  
+  .chart-header {
+    padding: 16px;
+    
+    .chart-avatar {
+      width: 40px;
+      height: 40px;
+      
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+    
+    .chart-title {
+      font-size: 16px;
+    }
+  }
+  
+  .chart-content {
+    padding: 16px;
+  }
+  
+  .chart-wrapper {
+    height: 220px;
+  }
+  
+  .empty-content,
+  .loading-content,
+  .no-charts-content {
+    .empty-icon,
+    .warning-icon {
+      font-size: 60px;
+      width: 60px;
+      height: 60px;
+    }
+    
+    h3 {
+      font-size: 20px;
+    }
+    
+    p {
+      font-size: 14px;
+    }
+  }
+}
+
+// Custom scrollbar for better UX
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+  
+  &:hover {
+    background: #a0aec0;
+  }
+}
+      

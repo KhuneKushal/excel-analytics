@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Add Calculated Column</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="calculatedColumnForm" (ngSubmit)="addCalculatedColumn()">
+      <mat-form-field appearance="fill">
+        <mat-label>New Column Name</mat-label>
+        <input matInput formControlName="columnName" required>
+        <mat-error *ngIf="calculatedColumnForm.get('columnName')?.hasError('required') && calculatedColumnForm.get('columnName')?.touched">
+          Column name is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Formula (e.g., col1 + col2 * 10)</mat-label>
+        <input matInput formControlName="formula" required>
+        <mat-error *ngIf="calculatedColumnForm.get('formula')?.hasError('required') && calculatedColumnForm.get('formula')?.touched">
+          Formula is required.
+        </mat-error>
+      </mat-form-field>
+
+      <p>Available Columns: {{ availableColumns.join(', ') }}</p>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="calculatedColumnForm.invalid">
+        Add Column
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

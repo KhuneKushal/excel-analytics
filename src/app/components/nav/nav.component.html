@@ -1,0 +1,45 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [mode]="'side'"
+      [opened]="false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/upload">Upload</a>
+      <a mat-list-item routerLink="/auto-analytics">Auto Analytics</a>
+      <a mat-list-item routerLink="/dashboard-builder">Dashboard Builder</a>
+      <a mat-list-item routerLink="/my-dashboard">My Dashboard</a>
+      <a mat-list-item routerLink="/data-summary">Data Summary</a>
+      <a mat-list-item routerLink="/filter-builder">Filter Builder</a>
+      <a mat-list-item routerLink="/calculated-columns">Calculated Columns</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Excel Analytics Platform</span>
+      <span class="toolbar-spacer"></span>
+      <button mat-button (click)="openResetDialog()" class="responsive-button">
+        <mat-icon>refresh</mat-icon>
+        <span class="button-text">Reset Dashboard</span>
+      </button>
+      <button mat-raised-button color="primary" (click)="triggerDownloadPdf()" class="responsive-button">
+        <mat-icon>download</mat-icon>
+        <span class="button-text">Download Dashboard as PDF</span>
+      </button>
+      <button mat-raised-button color="accent" (click)="triggerImportConfig()" class="responsive-button">
+        <mat-icon>upload</mat-icon>
+        <span class="button-text">Import Dashboard Config</span>
+      </button>
+    </mat-toolbar>
+    <div class="content">
+      <app-filter-bar></app-filter-bar>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

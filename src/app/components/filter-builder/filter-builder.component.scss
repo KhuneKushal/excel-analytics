@@ -1,0 +1,18 @@
+mat-card {
+  margin: 20px;
+}
+
+.filter-condition {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.filter-condition mat-form-field {
+  flex: 1;
+}
+
+button {
+  margin-right: 10px;
+}
