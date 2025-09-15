@@ -2,13 +2,6 @@
 
 A powerful, web-based tool designed to bring your Excel and CSV data to life. Upload your files, and instantly generate insightful summaries, create dynamic charts, and build custom dashboards. This tool empowers you to explore your data, uncover trends, and visualize information with an intuitive drag-and-drop interface.
 
-## Live Demo
-
-https://excel-analytics-mauve.vercel.app/
-
-<img width="1903" height="975" alt="Screenshot 2025-08-15 071406" src="https://github.com/user-attachments/assets/6ba06e22-0f09-434a-a949-0c20f9f75371" />
-
-
 ## Key Features
 
 - **Excel/CSV Upload:** Easily upload your `.xlsx` or `.csv` files to start the analysis.
@@ -92,22 +85,4 @@ The build artifacts will be stored in the `dist/excel-analytics/` directory.
 - `ng`: Run Angular CLI commands.
 - `start`: Start the production server.
 - `build`: Build the application for production.
-- `watch`: Build in development mode and watch for changes.
-- `test`: Run unit tests.
-- `build:ssr`: Build the application with SSR.
-- `serve:ssr`: Serve the SSR build.
-- `dev:ssr`: Run the application in development mode with SSR.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a pull request.
-
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
-
-## License
-
-This project is licensed under the [MIT License](LICENSE.md).
