@@ -4,17 +4,15 @@
   "installCommand": "npm install",
   "framework": null,
   "outputDirectory": "dist/excel-analytics/browser",
+  "functions": {
+    "api/server.ts": {
+      "runtime": "@vercel/node@3.0.0"
+    }
+  },
   "rewrites": [
     {
       "source": "/((?!api/.*).*)",
-      "destination": "/api/server.js"
+      "destination": "/api/server"
     }
-  ],
-  "functions": {
-    "api/server.js": {
-      "runtime": "nodejs22.x",
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  ]
 }
