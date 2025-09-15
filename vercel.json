@@ -14,32 +14,35 @@
   ],
   "routes": [
     {
-      "handle": "filesystem"
+      "src": "/assets/(.*)",
+      "headers": { "cache-control": "public, max-age=31536000, immutable" },
+      "dest": "/dist/excel-analytics/browser/assets/$1"
     },
     {
-      "src": "^/assets/(.*)$",
-      "dest": "/dist/excel-analytics/browser/assets/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
+      "src": "/(.+\\.[a-zA-Z0-9]{2,}$)",
+      "headers": { "cache-control": "public, max-age=31536000" },
+      "dest": "/dist/excel-analytics/browser/$1"
     },
     {
-      "src": "^/(.+\\.[a-zA-Z0-9]+)$",
-      "dest": "/dist/excel-analytics/browser/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000"
-      }
+      "src": "/_next/(.*)",
+      "headers": { "cache-control": "public, max-age=31536000, immutable" },
+      "dest": "/dist/excel-analytics/browser/_next/$1"
     },
     {
       "src": "/api/(.*)",
-      "dest": "/dist/excel-analytics/server/server.mjs",
-      "headers": {
-        "cache-control": "no-cache, no-store, must-revalidate"
-      }
+      "headers": { "cache-control": "no-cache, no-store, must-revalidate" },
+      "dest": "/dist/excel-analytics/server/server.mjs"
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/excel-analytics/server/server.mjs"
+      "dest": "/dist/excel-analytics/server/server.mjs",
+      "headers": {
+        "x-frame-options": "DENY",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block",
+        "cache-control": "no-cache, no-store, must-revalidate"
+      },
+      "continue": true
     }
   ],
   "env": {

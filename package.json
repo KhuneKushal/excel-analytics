@@ -7,9 +7,10 @@
     "build": "npx ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:ssr": "ng build && ng run excel-analytics:server",
+    "build:ssr": "ng build --configuration production && ng run excel-analytics:server:production",
     "serve:ssr": "node dist/excel-analytics/server/server.mjs",
-    "dev:ssr": "ng run excel-analytics:serve-ssr"
+    "dev:ssr": "ng run excel-analytics:serve-ssr",
+    "prerender": "ng run excel-analytics:prerender"
   },
   "prettier": {
     "overrides": [

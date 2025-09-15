@@ -78,13 +78,30 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 /**
  * Handle all other requests by rendering the Angular application.
  */
-app.use((req, res, next) => {
+// Send index.html for all routes that don't match files
+app.get('*', (req: Request, res: Response, next: NextFunction) => {
+  // Exclude API routes and static files
+  if (req.url.startsWith('/api/') || req.url.match(/\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/)) {
+    return next();
+  }
+
+  console.log(`Handling route: ${req.url}`);
+
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
+    .then((response) => {
+      if (response) {
+        writeResponseToNodeResponse(response, res);
+      } else {
+        // If no response, serve the index.html
+        res.sendFile(join(browserDistFolder, 'index.html'), { maxAge: '1h' });
+      }
+    })
+    .catch(error => {
+      console.error('Error handling request:', req.url, error);
+      // For 404s, serve index.html to let Angular handle routing
+      res.sendFile(join(browserDistFolder, 'index.html'), { maxAge: '1h' });
+    });
 });
 
 /**
