@@ -1,78 +1,11 @@
 {
   "version": 2,
   "framework": "angular",
+  "buildCommand": "npm run build:ssr",
   "outputDirectory": "dist/excel-analytics",
-  "functions": {
-    "dist/excel-analytics/server/server.mjs": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     { "source": "/assets/(.*)", "destination": "/dist/excel-analytics/browser/assets/$1" },
-    { "source": "/(.*)\\.(.+)$", "destination": "/dist/excel-analytics/browser/$1.$2" },
     { "source": "/(.*)", "destination": "/dist/excel-analytics/server/server.mjs" }
-  ],
-  "headers": [
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
-  ]
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "headers": { "cache-control": "public, max-age=31536000, immutable" },
-      "dest": "/dist/excel-analytics/browser/assets/$1"
-    },
-    {
-      "src": "/(.+\\.[a-zA-Z0-9]{2,}$)",
-      "headers": { "cache-control": "public, max-age=31536000" },
-      "dest": "/dist/excel-analytics/browser/$1"
-    },
-    {
-      "src": "/_next/(.*)",
-      "headers": { "cache-control": "public, max-age=31536000, immutable" },
-      "dest": "/dist/excel-analytics/browser/_next/$1"
-    },
-    {
-      "src": "/api/(.*)",
-      "headers": { "cache-control": "no-cache, no-store, must-revalidate" },
-      "dest": "/dist/excel-analytics/server/server.mjs"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/excel-analytics/server/server.mjs",
-      "headers": {
-        "x-frame-options": "DENY",
-        "x-content-type-options": "nosniff",
-        "x-xss-protection": "1; mode=block",
-        "cache-control": "no-cache, no-store, must-revalidate"
-      },
-      "continue": true
-    }
   ],
   "env": {
     "NODE_ENV": "production"
