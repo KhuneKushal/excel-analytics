@@ -14,34 +14,32 @@
   ],
   "routes": [
     {
-      "src": "/assets/(.*)",
+      "handle": "filesystem"
+    },
+    {
+      "src": "^/assets/(.*)$",
       "dest": "/dist/excel-analytics/browser/assets/$1",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
       }
     },
     {
-      "src": "/_next/static/(.*)",
-      "dest": "/dist/excel-analytics/browser/_next/static/$1",
+      "src": "^/(.+\\.[a-zA-Z0-9]+)$",
+      "dest": "/dist/excel-analytics/browser/$1",
       "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
+        "cache-control": "public, max-age=31536000"
       }
     },
     {
       "src": "/api/(.*)",
-      "dest": "dist/excel-analytics/server/server.mjs",
+      "dest": "/dist/excel-analytics/server/server.mjs",
       "headers": {
         "cache-control": "no-cache, no-store, must-revalidate"
       }
     },
     {
       "src": "/(.*)",
-      "dest": "dist/excel-analytics/server/server.mjs",
-      "headers": {
-        "x-frame-options": "DENY",
-        "x-content-type-options": "nosniff",
-        "x-xss-protection": "1; mode=block"
-      }
+      "dest": "/dist/excel-analytics/server/server.mjs"
     }
   ],
   "env": {

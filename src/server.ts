@@ -54,19 +54,26 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Serve static files from /browser with proper caching
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-    setHeaders: (res, path) => {
-      if (path.includes('/assets/')) {
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-      }
-    },
-  }),
-);
+// Handle browser assets with strict path matching
+app.use('/assets', express.static(join(browserDistFolder, 'assets'), {
+  maxAge: '1y',
+  immutable: true
+}));
+
+// Handle other static files
+app.use(express.static(browserDistFolder, {
+  maxAge: '1d',
+  index: false,
+  redirect: false
+}));
+
+// Log failed static file requests in development
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if (process.env['NODE_ENV'] === 'development') {
+    console.log(`Attempting to serve: ${req.url}`);
+  }
+  next();
+});
 
 /**
  * Handle all other requests by rendering the Angular application.
