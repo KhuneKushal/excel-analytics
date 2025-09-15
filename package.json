@@ -5,11 +5,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:ssr": "ng build",
+    "serve:ssr": "node dist/excel-analytics/server/server.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:ssr": "ng build && ng run excel-analytics:server",
-    "serve:ssr": "node dist/excel-analytics/server/main.server.mjs",
-    "dev:ssr": "ng run excel-analytics:serve-ssr"
+    "vercel-build": "bash vercel-build.sh"
   },
   "prettier": {
     "overrides": [
