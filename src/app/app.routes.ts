@@ -8,6 +8,7 @@ import { FilterBuilderComponent } from './components/filter-builder/filter-build
 import { CalculatedColumnsComponent } from './components/calculated-columns/calculated-columns.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'upload', pathMatch: 'full' },
   { path: 'upload', component: UploadExcelComponent },
   { path: 'auto-analytics', component: AutoChartsComponent },
   { path: 'dashboard-builder', component: DashboardBuilderComponent },
@@ -15,18 +16,15 @@ export const routes: Routes = [
   { path: 'data-summary', component: DataSummaryComponent },
   { path: 'filter-builder', component: FilterBuilderComponent },
   { path: 'calculated-columns', component: CalculatedColumnsComponent },
-  { path: '', redirectTo: '/upload', pathMatch: 'full' },
   { 
     path: '404', 
-    loadComponent: () => import('./components/error-page/error-page.component')
-      .then(m => m.ErrorPageComponent),
+    loadComponent: () => import('./components/error-page/error-page.component').then(m => m.ErrorPageComponent),
     data: { errorCode: 404 }
   },
   { 
     path: '500', 
-    loadComponent: () => import('./components/error-page/error-page.component')
-      .then(m => m.ErrorPageComponent),
+    loadComponent: () => import('./components/error-page/error-page.component').then(m => m.ErrorPageComponent),
     data: { errorCode: 500 }
   },
-  { path: '**', redirectTo: '/404' }
+  { path: '**', redirectTo: '404', pathMatch: 'full' }
 ];
