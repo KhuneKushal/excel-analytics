@@ -14,6 +14,7 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
+        
         "build": {
           "builder": "@angular/build:application",
           "options": {
@@ -38,8 +39,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.scss",
-              "src/dark-theme.scss"
+              "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -78,11 +78,8 @@
               "rgbcolor",
               "express"
             ],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            
+            
           },
           "configurations": {
             "production": {
