@@ -8,35 +8,46 @@ import { FilterBuilderComponent } from './components/filter-builder/filter-build
 import { CalculatedColumnsComponent } from './components/calculated-columns/calculated-columns.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    children: [
-      { path: '', redirectTo: 'upload', pathMatch: 'full' },
-      { path: 'upload', component: UploadExcelComponent },
-      { path: 'auto-analytics', component: AutoChartsComponent },
-      { path: 'dashboard-builder', component: DashboardBuilderComponent },
-      { path: 'my-dashboard', component: MyDashboardComponent },
-      { path: 'data-summary', component: DataSummaryComponent },
-      { path: 'filter-builder', component: FilterBuilderComponent },
-      { path: 'calculated-columns', component: CalculatedColumnsComponent }
-    ]
+  { 
+    path: '', 
+    redirectTo: '/upload', 
+    pathMatch: 'full' 
+  },
+  { 
+    path: 'upload', 
+    component: UploadExcelComponent 
+  },
+  { 
+    path: 'auto-analytics', 
+    component: AutoChartsComponent 
+  },
+  { 
+    path: 'dashboard-builder', 
+    component: DashboardBuilderComponent 
+  },
+  { 
+    path: 'my-dashboard', 
+    component: MyDashboardComponent 
+  },
+  { 
+    path: 'data-summary', 
+    component: DataSummaryComponent 
+  },
+  { 
+    path: 'filter-builder', 
+    component: FilterBuilderComponent 
+  },
+  { 
+    path: 'calculated-columns', 
+    component: CalculatedColumnsComponent 
   },
   {
-    path: 'error',
-    children: [
-      {
-        path: '404',
-        loadComponent: () => import('./components/error-page/error-page.component')
-          .then(m => m.ErrorPageComponent),
-        data: { errorCode: 404 }
-      },
-      {
-        path: '500',
-        loadComponent: () => import('./components/error-page/error-page.component')
-          .then(m => m.ErrorPageComponent),
-        data: { errorCode: 500 }
-      }
-    ]
+    path: '404',
+    loadComponent: () => import('./components/error-page/error-page.component')
+      .then(m => m.ErrorPageComponent)
   },
-  { path: '**', redirectTo: 'error/404' }
+  { 
+    path: '**', 
+    redirectTo: '/404' 
+  }
 ];
