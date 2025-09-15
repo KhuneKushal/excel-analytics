@@ -1,19 +1,20 @@
 {
   "version": 2,
-  "framework": "angular",
   "buildCommand": "npm run build:ssr",
+  "installCommand": "npm install",
+  "framework": null,
   "outputDirectory": "dist/excel-analytics/browser",
   "rewrites": [
-    { "source": "/assets/(.*)", "destination": "/assets/$1" },
-    { "source": "/(upload|auto-analytics|dashboard-builder|my-dashboard|data-summary|filter-builder|calculated-columns|error/404|error/500)", "destination": "/index.html" },
-    { "source": "/(.*)", "destination": "/api/server" }
+    {
+      "source": "/((?!api/.*).*)",
+      "destination": "/api/server.js"
+    }
   ],
   "functions": {
     "api/server.js": {
-      "includeFiles": "dist/excel-analytics/server/**"
+      "runtime": "nodejs22.x",
+      "memory": 1024,
+      "maxDuration": 10
     }
-  },
-  "env": {
-    "NODE_ENV": "production"
   }
 }

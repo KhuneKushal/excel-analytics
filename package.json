@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "vercel-build": "npm run build:ssr",
-    "build:ssr": "ng build && ng run excel-analytics:server",
+    "build:ssr": "ng build && ng run excel-analytics:server --configuration production",
     "serve:ssr": "node dist/excel-analytics/server/server.mjs",
     "dev:ssr": "ng run excel-analytics:serve-ssr",
     "prerender": "ng run excel-analytics:prerender"
