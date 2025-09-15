@@ -22,26 +22,49 @@ console.log(`Browser dist folder: ${browserDistFolder}`);
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+// Error handling middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error('Server Error:', err);
+  
+  // Handle specific error types
+  if (err.code === 'ENOENT') {
+    return res.status(404).json({
+      error: 'Resource not found',
+      path: req.path
+    });
+  }
+  
+  // Default error response
+  return res.status(500).json({
+    error: 'Internal server error',
+    message: process.env['NODE_ENV'] === 'development' ? err.message : 'Something went wrong'
+  });
+});
 
-/**
- * Serve static files from /browser
- */
+// Health check endpoint
+app.get('/api/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'healthy' });
+});
+
+// Security headers middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
+// Serve static files from /browser with proper caching
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
     index: false,
     redirect: false,
+    setHeaders: (res, path) => {
+      if (path.includes('/assets/')) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    },
   }),
 );
 

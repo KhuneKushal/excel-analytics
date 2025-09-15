@@ -15,5 +15,18 @@ export const routes: Routes = [
   { path: 'data-summary', component: DataSummaryComponent },
   { path: 'filter-builder', component: FilterBuilderComponent },
   { path: 'calculated-columns', component: CalculatedColumnsComponent },
-  { path: '', redirectTo: '/upload', pathMatch: 'full' }
+  { path: '', redirectTo: '/upload', pathMatch: 'full' },
+  { 
+    path: '404', 
+    loadComponent: () => import('./components/error-page/error-page.component')
+      .then(m => m.ErrorPageComponent),
+    data: { errorCode: 404 }
+  },
+  { 
+    path: '500', 
+    loadComponent: () => import('./components/error-page/error-page.component')
+      .then(m => m.ErrorPageComponent),
+    data: { errorCode: 500 }
+  },
+  { path: '**', redirectTo: '/404' }
 ];
