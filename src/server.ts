@@ -5,22 +5,41 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express, { Request, Response, NextFunction } from 'express';
-import { join } from 'node:path';
-import { readdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { existsSync } from 'node:fs';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// In production (Vercel), the cwd is set to the deployment directory
 const cwd = process.cwd();
-console.log(`CWD: ${cwd}`);
-try {
-  console.log(`CWD contents: ${readdirSync(cwd).join(', ')}`);
-} catch (e) {
-  console.log(`Error reading CWD: ${e}`);
-}
-
 const browserDistFolder = join(cwd, 'dist/excel-analytics/browser');
-console.log(`Browser dist folder: ${browserDistFolder}`);
+const indexHtml = join(browserDistFolder, 'index.html');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+// Handle preflight requests
+app.options('*', (_, res) => {
+  res.status(200).end();
+});
+
+// Add basic security headers
+app.use((_, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
+// Log requests in development
+if (process.env['NODE_ENV'] !== 'production') {
+  app.use((req, _, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+}
 
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -28,10 +47,11 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   
   // Handle specific error types
   if (err.code === 'ENOENT') {
-    return res.status(404).json({
-      error: 'Resource not found',
-      path: req.path
-    });
+    console.error(`File not found: ${req.path}`);
+    if (req.path.endsWith('.html')) {
+      return res.sendFile(indexHtml);
+    }
+    return res.status(404).sendFile(join(browserDistFolder, 'assets/404.html'));
   }
   
   // Default error response
@@ -54,25 +74,27 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Handle browser assets with strict path matching
+// Serve static files with proper caching
 app.use('/assets', express.static(join(browserDistFolder, 'assets'), {
   maxAge: '1y',
-  immutable: true
+  immutable: true,
+  fallthrough: false
 }));
 
 // Handle other static files
 app.use(express.static(browserDistFolder, {
   maxAge: '1d',
   index: false,
-  redirect: false
+  fallthrough: true
 }));
 
-// Log failed static file requests in development
-app.use((req: Request, res: Response, next: NextFunction) => {
-  if (process.env['NODE_ENV'] === 'development') {
-    console.log(`Attempting to serve: ${req.url}`);
+// Custom 404 handler for static files
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err.statusCode === 404) {
+    console.log(`Static file not found: ${req.path}`);
+    return next();
   }
-  next();
+  next(err);
 });
 
 /**

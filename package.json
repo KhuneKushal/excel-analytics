@@ -7,6 +7,7 @@
     "build": "npx ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "vercel-build": "npm run build:ssr",
     "build:ssr": "ng build --configuration production && ng run excel-analytics:server:production",
     "serve:ssr": "node dist/excel-analytics/server/server.mjs",
     "dev:ssr": "ng run excel-analytics:serve-ssr",
